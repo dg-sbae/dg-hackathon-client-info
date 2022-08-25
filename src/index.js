@@ -8,7 +8,6 @@ const root = ReactDOM.createRoot(el);
 function App(){
   return (
   <>
-  <h1>Client Performance Info</h1>
   <AccountTable/>
   </>
   )

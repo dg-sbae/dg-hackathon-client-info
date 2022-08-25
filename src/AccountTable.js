@@ -1,7 +1,15 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { isBefore } from "date-fns";
-import axios from "axios";
+import axios from "axios"; 
+import styled from "styled-components";
+import { Button } from "./components/Button.styled";
+import { CenteredDiv } from "./components/CenteredDiv.styled";
+import { Container } from './components/Container.styled';
+import { Header } from './components/Header.styled'
+import { Table, TableData, TableHead, TableRow } from './components/Table.styled';
+
+
 const sampleData = {
   $id: "1",
   accountName: "DENTIST",
@@ -1250,7 +1258,6 @@ const AccountTable = () => {
   // THIS IS GOING TO RUN THE MOMENT THE APP LOADS 
     const handleRequestClientData = async ()=> { 
       const  {REACT_APP_USERNAME, REACT_APP_PASSWORD} = process.env
-      console.log("process.env", process.env)
 
       // POST /AdminUsers/Login endpoint to retrieve an authorization token for ADMIN API 
       let adminAccess;
@@ -1313,6 +1320,7 @@ const AccountTable = () => {
     // let filteredNewPatients
     let companies = [];
     accounts.map((account) => {
+      let accountNumber = account.accountNumber
       let accountName = account.accountName;
       let totalCalls = 0;
       let totalWebforms = 0;
@@ -1341,6 +1349,7 @@ const AccountTable = () => {
       console.log(`IM THE TOTAL Webforms ${totalWebforms}`);
       console.log(`IM THE TOTAL NewPatients ${totalNewPatients}`);
       let company = {
+        accountNumber: accountNumber,
         accountName: accountName,
         totalCalls: totalCalls,
         totalWebforms: totalWebforms,
@@ -1358,23 +1367,110 @@ const AccountTable = () => {
     console.log("row.accountName: ", row.accountName);
   });
   return (
-    <div className="App">
-      <h2>IM ACCOUNT DATA</h2>
-      {tableRows.map((row) => (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-evenly"
-          }}
-        >
-          <p>{row.accountName}</p>
-          <p>{row.totalCalls}</p>
-          <p>{row.totalWebforms}</p>
-          <p>{row.totalNewPatients}</p>
-        </div>
-      ))}
-    </div>
+    <Container>
+      <CenteredDiv>
+        <Header>
+          Client Performance Info
+        </Header>
+      </CenteredDiv>
+        <Button /*onClick={3 Months Filter}*/>3 Months</Button>
+        <Button /*onClick={6 Months Filter}*/>6 Months</Button>
+        <Button /*onClick={9 Months Filter}*/>9 Months</Button>
+        <Button /*onClick={12 Months Filter}*/>12 Months</Button>
+          <Table>
+              <TableRow>
+                  <TableHead>
+                      Account Number
+                  </TableHead>
+                  <TableHead>
+                      Account Name
+                  </TableHead>
+                  <TableHead>
+                      Total New Patients (Current)
+                  </TableHead>
+                  <TableHead>
+                      Total New Patients (Previous)
+                  </TableHead>
+                  <TableHead>
+                      Delta Total (New Patients)
+                  </TableHead>
+                  <TableHead>
+                      % Change (New Patients)
+                  </TableHead>
+                  <TableHead>
+                      Total Calls (Current)
+                  </TableHead>
+                  <TableHead>
+                      Total Calls (Previous)
+                  </TableHead>
+                  <TableHead>
+                      Delta Total (New Calls)
+                  </TableHead>
+                  <TableHead>
+                      % Change (New Calls)
+                  </TableHead>
+                  <TableHead>
+                      Total Web Forms (Current)
+                  </TableHead>
+                  <TableHead>
+                      Total Web Forms (Previous)
+                  </TableHead>
+                  <TableHead>
+                      Delta Total (Total Web Forms)
+                  </TableHead>
+                  <TableHead>
+                      % Change (New Calls)
+                  </TableHead>
+              </TableRow>
+              {console.log("here is the data", tableRows )}
+                {tableRows.map((row) => (
+                  <TableRow>
+                    <TableData>
+                      {row.accountNumber}
+                    </TableData>
+                    <TableData>
+                      {row.accountName}
+                    </TableData>
+                    <TableData>
+                      {row.totalNewPatients}
+                    </TableData>
+                    <TableData>
+                      Total New Patients (Previous)
+                    </TableData>
+                    <TableData>
+                      +- New Patients
+                    </TableData>
+                    <TableData>
+                      +- %
+                    </TableData>
+                    <TableData>
+                      {row.totalCalls}
+                    </TableData>
+                    <TableData>
+                      Total Calls (Previous)
+                    </TableData>
+                    <TableData>
+                      +- New Calls
+                    </TableData>
+                    <TableData>
+                      +- %
+                    </TableData>
+                    <TableData>
+                      {row.totalWebforms}
+                    </TableData>
+                    <TableData>
+                      Total Webforms (Previous)
+                    </TableData>
+                    <TableData>
+                      +- New Webforms
+                    </TableData>
+                    <TableData>
+                      +- %
+                    </TableData>
+                  </TableRow>
+                ))}
+          </Table>
+        </Container>
   );
 }
  export default AccountTable; 
